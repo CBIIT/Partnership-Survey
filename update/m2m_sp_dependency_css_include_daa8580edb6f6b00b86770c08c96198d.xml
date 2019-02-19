@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="m2m_sp_dependency_css_include">
+    <m2m_sp_dependency_css_include action="INSERT_OR_UPDATE">
+        <order>100</order>
+        <sp_css_include display_value="partnership survey tag css">67181ccadb6f6b00b86770c08c961914</sp_css_include>
+        <sp_dependency display_value="survey_tags">cc14944adb6f6b00b86770c08c9619f5</sp_dependency>
+        <sys_class_name>m2m_sp_dependency_css_include</sys_class_name>
+        <sys_created_by>zhoujim@nih.gov</sys_created_by>
+        <sys_created_on>2019-02-12 01:11:29</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>daa8580edb6f6b00b86770c08c96198d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>partnership survey tag css.survey_tags</sys_name>
+        <sys_package display_value="Partnership program process survey" source="x_naci_survey">c3cce779dbeb6b00b86770c08c96191e</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Partnership program process survey">c3cce779dbeb6b00b86770c08c96191e</sys_scope>
+        <sys_update_name>m2m_sp_dependency_css_include_daa8580edb6f6b00b86770c08c96198d</sys_update_name>
+        <sys_updated_by>zhoujim@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-12 01:11:29</sys_updated_on>
+    </m2m_sp_dependency_css_include>
+</record_update>

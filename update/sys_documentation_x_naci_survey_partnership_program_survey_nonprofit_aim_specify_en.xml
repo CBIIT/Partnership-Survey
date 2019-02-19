@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_documentation element="nonprofit_aim_specify" label="Nonprofit Aim Specify" language="en" table="x_naci_survey_partnership_program_survey">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>nonprofit_aim_specify</element>
+            <help>Explain any potential risks (e.g., the nonprofit is fully funded by industries of a controversialnature, or industries where primary product is known to be harmful to human health) and whythe benefit from the relationship outweighs the potential damage to the IC's reputation. Describe the actions you took to mitigate the harm that will arise from the relationship.</help>
+            <hint/>
+            <label>Nonprofit Aim Specify</label>
+            <language>en</language>
+            <name>x_naci_survey_partnership_program_survey</name>
+            <plural>Nonprofit Aim Specifies</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>zhoujim@nih.gov</sys_created_by>
+            <sys_created_on>2019-02-11 22:55:02</sys_created_on>
+            <sys_customer_update>false</sys_customer_update>
+            <sys_id>9369bb75db2f6b00b86770c08c961971</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_name>Nonprofit Aim Specify</sys_name>
+            <sys_package display_value="Partnership program process survey" source="x_naci_survey">c3cce779dbeb6b00b86770c08c96191e</sys_package>
+            <sys_policy/>
+            <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+            <sys_scope display_value="Partnership program process survey">c3cce779dbeb6b00b86770c08c96191e</sys_scope>
+            <sys_update_name>sys_documentation_x_naci_survey_partnership_program_survey_nonprofit_aim_specify_en</sys_update_name>
+            <sys_updated_by>zhoujim@nih.gov</sys_updated_by>
+            <sys_updated_on>2019-02-12 22:51:52</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="m2m_sp_ng_pro_sp_widget">
+    <m2m_sp_ng_pro_sp_widget action="INSERT_OR_UPDATE">
+        <sp_angular_provider display_value="SurveyUser">971efffddbe3e70054d8ff621f961954</sp_angular_provider>
+        <sp_widget display_value="survey form">4b7e6fbddba3e70054d8ff621f961955</sp_widget>
+        <sys_class_name>m2m_sp_ng_pro_sp_widget</sys_class_name>
+        <sys_created_by>yuw5@nih.gov</sys_created_by>
+        <sys_created_on>2019-02-11 23:16:31</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>825e37fddbe3e70054d8ff621f96190f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>SurveyUser.survey form</sys_name>
+        <sys_package display_value="Partnership program process survey" source="x_naci_survey">c3cce779dbeb6b00b86770c08c96191e</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Partnership program process survey">c3cce779dbeb6b00b86770c08c96191e</sys_scope>
+        <sys_update_name>m2m_sp_ng_pro_sp_widget_825e37fddbe3e70054d8ff621f96190f</sys_update_name>
+        <sys_updated_by>yuw5@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-11 23:16:31</sys_updated_on>
+    </m2m_sp_ng_pro_sp_widget>
+</record_update>

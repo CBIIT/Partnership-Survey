@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_security_acl_role">
+    <sys_security_acl_role action="INSERT_OR_UPDATE">
+        <sys_class_name>sys_security_acl_role</sys_class_name>
+        <sys_created_by>zhoujim@nih.gov</sys_created_by>
+        <sys_created_on>2019-02-12 01:19:22</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>ad7a1c4edb6f6b00b86770c08c9619da</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_naci_survey_staff_for_survey.x_naci_survey.staff_for_survey_user</sys_name>
+        <sys_package display_value="Partnership program process survey" source="x_naci_survey">c3cce779dbeb6b00b86770c08c96191e</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Partnership program process survey">c3cce779dbeb6b00b86770c08c96191e</sys_scope>
+        <sys_security_acl display_value="x_naci_survey_staff_for_survey">e97a1c4edb6f6b00b86770c08c9619c7</sys_security_acl>
+        <sys_update_name>sys_security_acl_role_ad7a1c4edb6f6b00b86770c08c9619da</sys_update_name>
+        <sys_updated_by>zhoujim@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-12 01:19:22</sys_updated_on>
+        <sys_user_role display_value="x_naci_survey.staff_for_survey_user" name="x_naci_survey.staff_for_survey_user">d57a984edb6f6b00b86770c08c9619f8</sys_user_role>
+        <transaction_id/>
+    </sys_security_acl_role>
+</record_update>

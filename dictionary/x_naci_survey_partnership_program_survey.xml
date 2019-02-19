@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Partnership Program Survey" max_length="40" name="x_naci_survey_partnership_program_survey" type="collection">
+        <element label="Advisory" max_length="50" name="advisory" type="string"/>
+        <element label="Advisory Specify" max_length="1000" name="advisory_specify" type="string"/>
+        <element label="Amount" max_length="50" name="amount" type="string"/>
+        <element label="Amount Type" max_length="50" name="amount_type" type="string"/>
+        <element label="Clearance" max_length="50" name="clearance" type="string"/>
+        <element label="Clearance Specify" max_length="1000" name="clearance_specify" type="string"/>
+        <element label="Communicate" max_length="50" name="communicate" type="string"/>
+        <element label="Communicate Specify" max_length="1000" name="communicate_specify" type="string"/>
+        <element label="Complaints" max_length="50" name="complaints" type="string"/>
+        <element label="Complaints Specify" max_length="1000" name="complaints_specify" type="string"/>
+        <element label="Confidential Detail" max_length="50" name="confidential_detail" type="string"/>
+        <element label="Confidential Specify" max_length="1000" name="confidential_specify" type="string"/>
+        <element label="Contribution" max_length="50" name="contribution" type="string"/>
+        <element label="Design Document" max_length="50" name="design_document" type="string"/>
+        <element label="Disclosure" max_length="50" name="disclosure" type="string"/>
+        <element label="DOC" max_length="200" name="doc" type="string"/>
+        <element label="Entity" max_length="50" name="entity" type="string"/>
+        <element label="Foa" max_length="50" name="foa" type="string"/>
+        <element label="FOA Specify" max_length="1000" name="foa_specify" type="string"/>
+        <element label="Industry Scrutiny" max_length="50" name="industry_scrutiny" type="string"/>
+        <element label="Industry Use" max_length="50" name="industry_use" type="string"/>
+        <element label="Industry Use Specify" max_length="1000" name="industry_use_specify" type="string"/>
+        <element label="Inequitable Treatment" max_length="50" name="inequitable_treatment" type="string"/>
+        <element label="Inequitable Treatment Specify" max_length="1000" name="inequitable_treatment_specify" type="string"/>
+        <element label="Intellectual" max_length="50" name="intellectual" type="string"/>
+        <element label="Interventional" max_length="50" name="interventional" type="string"/>
+        <element label="Involved" max_length="50" name="involved" type="string"/>
+        <element label="Management" max_length="50" name="management" type="string"/>
+        <element label="Monetary" max_length="50" name="monetary" type="string"/>
+        <element label="Nonprofit aim" max_length="50" name="nonprofit_aim" type="string"/>
+        <element label="Nonprofit Aim Specify" max_length="1000" name="nonprofit_aim_specify" type="string"/>
+        <element label="Nonprofit Scrutiny" max_length="50" name="nonprofit_scrutiny" type="string"/>
+        <element label="No Assets" max_length="50" name="no_assets" type="string"/>
+        <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" type="string"/>
+        <element label="Other Organization" max_length="50" name="other_organization" type="string"/>
+        <element label="Participate" max_length="50" name="participate" type="string"/>
+        <element label="Partnership" max_length="50" name="partnership" type="string"/>
+        <element label="Relationship" max_length="50" name="relationship" type="string"/>
+        <element label="Renewal" max_length="50" name="renewal" type="string"/>
+        <element label="Renewal Specify" max_length="1000" name="renewal_specify" type="string"/>
+        <element label="Risk" max_length="50" name="risk" type="string"/>
+        <element label="Risk Assessed" max_length="50" name="risk_assessed" type="string"/>
+        <element label="Risk Document" max_length="50" name="risk_document" type="string"/>
+        <element label="Solicitation" max_length="50" name="solicitation" type="string"/>
+        <element label="Specifics" max_length="50" name="specifics" type="string"/>
+        <element label="Study Design" max_length="50" name="study_design" type="string"/>
+        <element label="Submit By" max_length="32" name="submit_by" reference="sys_user" type="reference"/>
+        <element label="Submit For" max_length="32" name="submit_for" reference="sys_user" type="reference"/>
+        <element label="Supply Document" max_length="50" name="supply_document" type="string"/>
+        <index name="index">
+            <element name="submit_by"/>
+        </index>
+        <index name="index2">
+            <element name="submit_for"/>
+        </index>
+    </element>
+</database>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_dependency">
+    <sp_dependency action="INSERT_OR_UPDATE">
+        <module/>
+        <name>survey_tags</name>
+        <page_load>false</page_load>
+        <sp_portals/>
+        <sys_class_name>sp_dependency</sys_class_name>
+        <sys_created_by>zhoujim@nih.gov</sys_created_by>
+        <sys_created_on>2019-02-12 00:51:40</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>cc14944adb6f6b00b86770c08c9619f5</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>survey_tags</sys_name>
+        <sys_package display_value="Partnership program process survey" source="x_naci_survey">c3cce779dbeb6b00b86770c08c96191e</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Partnership program process survey">c3cce779dbeb6b00b86770c08c96191e</sys_scope>
+        <sys_update_name>sp_dependency_cc14944adb6f6b00b86770c08c9619f5</sys_update_name>
+        <sys_updated_by>zhoujim@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-12 00:51:40</sys_updated_on>
+    </sp_dependency>
+</record_update>

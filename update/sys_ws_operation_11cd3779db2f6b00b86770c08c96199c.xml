@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ws_operation">
+    <sys_ws_operation action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <consumes>application/json,application/xml,text/xml</consumes>
+        <consumes_customized>false</consumes_customized>
+        <default_operation_uri/>
+        <enforce_acl>cf9d01d3e73003009d6247e603f6a990</enforce_acl>
+        <http_method>POST</http_method>
+        <name>submitSurvey</name>
+        <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+	var param = request.body.data;
+	var survey = new GlideRecord('x_naci_survey_partnership_program_survey');
+		survey.initialize();
+		survey.submit_for = param.submit_for.toString();
+		survey.submit_by = param.submit_by.toString();
+		survey.partnership = param.partnership.toString();
+    	survey.relationship = param.relationship.toString();
+		survey.supply_document = param.supply_document.toString();
+		survey.other_organization = param.other_organization.toString();
+		survey.specifics = param.specifics.toString();
+		survey.renewal = param.renewal.toString();
+		survey.renewal_specify = param.renewal_specify.toString();
+		survey.foa = param.foa.toString();
+		survey.foa_specify = param.foa_specify.toString();
+		survey.clearance = param.clearance.toString();
+		survey.clearance_specify = param.clearance_specify.toString();
+		survey.risk = param.risk.toString();
+		survey.risk_document = param.risk_document.toString();
+		survey.study_design = param.study_design.toString();
+		survey.design_document = param.design_document.toString();
+		survey.intellectual = param.intellectual.toString();
+		survey.contribution = param.contribution.toString();
+		survey.interventional = param.interventional.toString();
+		survey.risk_assessed = param.risk_assessed.toString();
+		survey.entity = param.entity.toString();
+		survey.monetary = param.monetary.toString();
+		survey.amount = param.amount.toString();
+		survey.amount_type = param.amount_type.toString();
+		survey.no_assets = param.no_assets.toString();
+		survey.industry_scrutiny = param.industry_scrutiny.toString();
+		survey.industry_use = param.industry_use.toString();
+		survey.industry_use_specify = param.industry_use_specify.toString();
+		survey.nonprofit_scrutiny = param.nonprofit_scrutiny.toString();
+		survey.nonprofit_aim = param.nonprofit_aim.toString();
+		survey.nonprofit_aim_specify = param.nonprofit_aim_specify.toString();
+		survey.participate = param.participate.toString();
+		survey.solicitation = param.solicitation.toString();
+		survey.advisory = param.advisory.toString();
+		survey.advisory_specify = param.advisory_specify.toString();
+		survey.confidential_detail = param.confidential_detail.toString();
+		survey.confidential_specify = param.confidential_specify.toString();
+		survey.complaints = param.complaints.toString();
+		survey.complaints_specify = param.complaints_specify.toString();
+		survey.involved = param.involved.toString();
+		survey.disclosure = param.disclosure.toString();
+		survey.management = param.management.toString();
+		survey.communicate = param.communicate.toString();
+		survey.communicate_specify = param.communicate_specify.toString();
+		survey.inequitable_treatment = param.inequitable_treatment.toString();
+		survey.inequitable_treatment_specify = param.inequitable_treatment_specify.toString();
+		survey.doc = param.doc.toString();
+		var task_id = survey.insert();
+	
+		return {id: task_id};
+	
+})(request, response);]]></operation_script>
+        <operation_uri>/api/x_naci_survey/partnership_program_survey/submitSurvey</operation_uri>
+        <produces>application/json,application/xml,text/xml</produces>
+        <produces_customized>false</produces_customized>
+        <relative_path>/submitSurvey</relative_path>
+        <request_example/>
+        <requires_acl_authorization>true</requires_acl_authorization>
+        <requires_authentication>true</requires_authentication>
+        <short_description/>
+        <sys_class_name>sys_ws_operation</sys_class_name>
+        <sys_created_by>zhoujim@nih.gov</sys_created_by>
+        <sys_created_on>2019-02-11 23:14:29</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>11cd3779db2f6b00b86770c08c96199c</sys_id>
+        <sys_mod_count>9</sys_mod_count>
+        <sys_name>submitSurvey</sys_name>
+        <sys_package display_value="Partnership program process survey" source="x_naci_survey">c3cce779dbeb6b00b86770c08c96191e</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Partnership program process survey">c3cce779dbeb6b00b86770c08c96191e</sys_scope>
+        <sys_update_name>sys_ws_operation_11cd3779db2f6b00b86770c08c96199c</sys_update_name>
+        <sys_updated_by>yuw5@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-13 01:46:43</sys_updated_on>
+        <web_service_definition display_value="Partnership Program Survey">a69db379db2f6b00b86770c08c9619b2</web_service_definition>
+        <web_service_version/>
+    </sys_ws_operation>
+</record_update>

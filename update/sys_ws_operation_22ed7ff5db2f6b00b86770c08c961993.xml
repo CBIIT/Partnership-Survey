@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ws_operation">
+    <sys_ws_operation action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <consumes>application/json,application/xml,text/xml</consumes>
+        <consumes_customized>false</consumes_customized>
+        <default_operation_uri/>
+        <enforce_acl>cf9d01d3e73003009d6247e603f6a990</enforce_acl>
+        <http_method>GET</http_method>
+        <name>getAllSurvey</name>
+        <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+	result = {};
+	result.metadata = {};
+	result.list = [];
+	
+	
+	var dict = {};
+	var rec = new GlideRecord('sys_documentation');
+		rec.addQuery('name','x_naci_survey_partnership_program_survey');
+		rec.query();
+		while(rec.next()){
+		  var item = {};
+		  item.element = rec.getDisplayValue('element');
+		  item.help = rec.getDisplayValue('help');
+		  dict[item.element] = item.help;
+		}
+
+	result.metadata =  dict;
+	
+	var survey = new GlideRecord('x_naci_survey_partnership_program_survey');
+		survey.query();
+	while(survey.next()){
+		var item = {};
+		item.number = survey.number.toString();
+		item.submit_for = survey.submit_for.name.toString();
+		item.submit_by = survey.submit_by.name.toString();
+		item.partnership = survey.partnership.toString();
+		item.relationship = survey.relationship.toString();
+		item.supply_document = survey.supply_document.toString();
+		item.other_organization = survey.other_organization.toString();
+		item.specifics = survey.specifics.toString();
+		item.renewal = survey.renewal.toString();
+		item.renewal_specify = survey.renewal_specify.toString();
+		item.foa = survey.foa.toString();
+		item.foa_specify = survey.foa_specify.toString();
+		item.clearance = survey.clearance.toString();
+		item.clearance_specify = survey.clearance_specify.toString();
+		item.risk = survey.risk.toString();
+		item.risk_document = survey.risk_document.toString();
+		item.study_design = survey.study_design.toString();
+		item.design_document = survey.design_document.toString();
+		item.intellectual = survey.intellectual.toString();
+		item.contribution = survey.contribution.toString();
+		item.interventional = survey.interventional.toString();
+		item.risk_assessed = survey.risk_assessed.toString();
+		item.entity = survey.entity.toString();
+		item.monetary = survey.monetary.toString();
+		item.amount = survey.amount.toString();
+		item.amount_type = survey.amount_type.toString();
+		item.no_assets = survey.no_assets.toString();
+		item.industry_scrutiny = survey.industry_scrutiny.toString();
+		item.industry_use = survey.industry_use.toString();
+		item.industry_use_specify = survey.industry_use_specify.toString();
+		item.nonprofit_scrutiny = survey.nonprofit_scrutiny.toString();
+		item.nonprofit_aim = survey.nonprofit_aim.toString();
+		item.nonprofit_aim_specify = survey.nonprofit_aim_specify.toString();
+		item.participate = survey.participate.toString();
+		item.solicitation = survey.solicitation.toString();
+		item.advisory = survey.advisory.toString();
+		item.advisory_specify = survey.advisory_specify.toString();
+		item.confidential_detail = survey.confidential_detail.toString();
+		item.confidential_specify = survey.confidential_specify.toString();
+		item.complaints = survey.complaints.toString();
+		item.complaints_specify = survey.complaints_specify.toString();
+		item.involved = survey.involved.toString();
+		item.disclosure = survey.disclosure.toString();
+		item.management = survey.management.toString();
+		item.communicate = survey.communicate.toString();
+		item.communicate_specify = survey.communicate_specify.toString();
+		item.inequitable_treatment = survey.inequitable_treatment.toString();
+		item.inequitable_treatment_specify = survey.inequitable_treatment_specify.toString();
+		item.doc = survey.doc.toString();
+		result.list.push(item);
+	}
+	
+	return result;
+
+})(request, response);]]></operation_script>
+        <operation_uri>/api/x_naci_survey/partnership_program_survey/getAllSurvey</operation_uri>
+        <produces>application/json,application/xml,text/xml</produces>
+        <produces_customized>false</produces_customized>
+        <relative_path>/getAllSurvey</relative_path>
+        <request_example/>
+        <requires_acl_authorization>true</requires_acl_authorization>
+        <requires_authentication>true</requires_authentication>
+        <short_description/>
+        <sys_class_name>sys_ws_operation</sys_class_name>
+        <sys_created_by>zhoujim@nih.gov</sys_created_by>
+        <sys_created_on>2019-02-11 23:15:07</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>22ed7ff5db2f6b00b86770c08c961993</sys_id>
+        <sys_mod_count>9</sys_mod_count>
+        <sys_name>getAllSurvey</sys_name>
+        <sys_package display_value="Partnership program process survey" source="x_naci_survey">c3cce779dbeb6b00b86770c08c96191e</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Partnership program process survey">c3cce779dbeb6b00b86770c08c96191e</sys_scope>
+        <sys_update_name>sys_ws_operation_22ed7ff5db2f6b00b86770c08c961993</sys_update_name>
+        <sys_updated_by>yuw5@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-13 02:05:32</sys_updated_on>
+        <web_service_definition display_value="Partnership Program Survey">a69db379db2f6b00b86770c08c9619b2</web_service_definition>
+        <web_service_version/>
+    </sys_ws_operation>
+</record_update>

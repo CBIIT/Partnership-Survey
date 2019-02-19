@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_portal">
+    <sp_portal action="INSERT_OR_UPDATE">
+        <css_variables/>
+        <default>false</default>
+        <homepage display_value="survey_portal">57b27335dbe3e70054d8ff621f9619ec</homepage>
+        <icon/>
+        <kb_knowledge_base/>
+        <kb_knowledge_page/>
+        <login_page display_value="nci_landing">d656f227dba25f00f59974131f961902</login_page>
+        <logo/>
+        <notfound_page/>
+        <quick_start_config/>
+        <sc_catalog/>
+        <sc_catalog_page/>
+        <sc_category_page/>
+        <sp_chat_queue/>
+        <sp_rectangle_menu/>
+        <sqanda_knowledge_base/>
+        <sys_class_name>sp_portal</sys_class_name>
+        <sys_created_by>yuw5@nih.gov</sys_created_by>
+        <sys_created_on>2019-02-11 22:06:44</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>95dd6fbddba3e70054d8ff621f96197f</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Partnership Survey Portal</sys_name>
+        <sys_package display_value="Partnership program process survey" source="x_naci_survey">c3cce779dbeb6b00b86770c08c96191e</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Partnership program process survey">c3cce779dbeb6b00b86770c08c96191e</sys_scope>
+        <sys_update_name>sp_portal_95dd6fbddba3e70054d8ff621f96197f</sys_update_name>
+        <sys_updated_by>yuw5@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-11 22:27:56</sys_updated_on>
+        <theme display_value="survey theme">f78e6bfddba3e70054d8ff621f9619a5</theme>
+        <title>Partnership Survey Portal</title>
+        <url_suffix>partnership_survey</url_suffix>
+    </sp_portal>
+</record_update>

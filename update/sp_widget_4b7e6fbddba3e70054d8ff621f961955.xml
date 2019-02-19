@@ -1,0 +1,1148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function($scope,$location, SurveyForm, SurveyUser) {
+  /* widget controller */
+  var c = this;
+	var s = $location.search();
+	
+	var cb = null;
+	c.data.incomplete = [];
+	
+	c.data.request_for = [{
+		id: $rootScope.user.info.id,
+		name: $rootScope.user.info.name
+	}];
+	c.data.request_for_text = "";
+	
+	c.data.doc = $rootScope.user.doc;
+	c.data.submit_by = $rootScope.user.info.id;
+	c.data.partnership = "";
+  c.data.relationship = "";
+	c.data.supply_document = "";
+	c.data.other_organization = "";
+	c.data.specifics = "";
+	c.data.renewal = "";
+	c.data.renewal_specify = "";
+	c.data.foa = "";
+	c.data.foa_specify = "";
+	c.data.clearance = "";
+	c.data.clearance_specify = "";
+	c.data.risk = "";
+	c.data.risk_document = "";
+	c.data.study_design = "";
+	c.data.design_document = "";
+	c.data.intellectual = false;
+	c.data.contribution = "";
+	c.data.interventional = false;
+	c.data.risk_assessed = "";
+	c.data.entity = false;
+	c.data.monetary = false;
+	c.data.amount = "";
+	c.data.amount_type = "";
+	c.data.amount_type_1 = "";
+	c.data.no_assets = false;
+	c.data.industry_scrutiny = "";
+	c.data.industry_use = "";
+	c.data.industry_use_specify = "";
+	c.data.nonprofit_scrutiny = "";
+	c.data.nonprofit_aim = "";
+	c.data.nonprofit_aim_specify = "";
+	c.data.participate = "";
+	c.data.solicitation = "";
+	c.data.advisory = "";
+	c.data.advisory_specify = "";
+	c.data.confidential_detail = "";
+	c.data.confidential_specify = "";
+	c.data.complaints = "";
+	c.data.complaints_specify = "";
+	c.data.involved = "";
+	c.data.disclosure = "";
+	c.data.management = "";
+	c.data.communicate = "";
+	c.data.communicate_specify = "";
+	c.data.inequitable_treatment = "";
+	c.data.inequitable_treatment_specify = "";
+	
+	
+	c.data.saving = false;
+	c.data.save_text = 'Submit';
+	
+	c.data.tab_1 = {
+		isOpen:true
+	};
+	c.data.tab_2 = {
+		isOpen:true
+	};
+	
+	c.tagAdding = function(tag){
+		if(tag.id){
+			if(c.data.request_for.length === 0){
+				c.data.doc  = tag.org;
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		else{
+			return false;
+		}
+	};
+	
+	c.tagRemoved = function(tag){
+		if(c.data.request_for.length === 0){
+			c.data.doc  = "";
+		}
+	};
+	
+	c.goAhead = function(){
+		if(cb){
+			cb();
+		}
+	};
+	
+	c.cancelConfirm = function(){
+		$('#confirmDiv').modal('hide');
+	};
+	
+	c.submitSurvey = function(){
+		var ready = true;
+		c.data.incomplete = [];
+		var message = "Please complete the following questions in the form:";
+		var params = {};
+		if(c.data.request_for.length == 0 || c.data.request_for[0].id == ""){
+			c.data.incomplete.push('s0_1');
+		}
+		else{
+			params.submit_for = c.data.request_for[0].id;
+		}
+		params.submit_by = c.data.submit_by;
+		if(c.data.doc == "" || c.data.doc.trim() == ""){
+			c.data.incomplete.push('s0_2');
+		}
+		else{
+			params.doc = c.data.doc;
+		}
+		params.partnership = c.data.partnership;
+		if(c.data.partnership == ""){
+			ready = false;
+			c.data.incomplete.push('s1_0');
+			message  += "<br>Section I";
+		}
+		else if(c.data.partnership == "Yes"){
+			//question 1-a
+			if(c.data.relationship == ""){
+				ready = false;
+				c.data.incomplete.push('s1_1_a');
+			  message  += "<br>Section I : 1) a)";
+			}
+			else{
+				params.relationship = c.data.relationship;
+			}
+			//question 1-b
+			if(c.data.supply_document == ""){
+				ready = false;
+				c.data.incomplete.push('s1_1_b');
+			  message  += "<br>Section I : 1) b)";
+			}
+			else{
+				params.supply_document = c.data.supply_document;
+			}
+			//question 2
+			if(c.data.other_organization == ""){
+				ready = false;
+				c.data.incomplete.push('s1_2');
+			  message  += "<br>Section I : 2)";
+			}
+			else if(c.data.other_organization == "No"){
+				params.other_organization = c.data.other_organization;
+				params.specifics = "";
+			}
+			else{
+				params.other_organization = c.data.other_organization;
+				if(c.data.specifics == ""){
+					ready = false;
+					c.data.incomplete.push('s1_2_s');
+			    message  += "<br>Section I : 2)";
+				}
+				else{
+					params.specifics = c.data.specifics;
+				}
+			}
+			//question 3
+			if(c.data.renewal == ""){
+				ready = false;
+				c.data.incomplete.push('s1_3');
+			  message  += "<br>Section I : 3)";
+			}
+			else if(c.data.renewal == "No"){
+				params.renewal = c.data.renewal;
+				params.renewal_specify = "";
+			}
+			else{
+				params.renewal = c.data.renewal;
+				if(c.data.renewal_specify == ""){
+					ready = false;
+					c.data.incomplete.push('s1_3_s');
+			    message  += "<br>Section I : 3)";
+				}
+				else{
+					params.renewal_specify = c.data.renewal_specify;
+				}
+			}
+			//question 4
+			if(c.data.foa == ""){
+				ready = false;
+				c.data.incomplete.push('s1_4');
+			  message  += "<br>Section I : 4)";
+			}
+			else if(c.data.foa == "No"){
+				params.foa = c.data.foa;
+				params.foa_specify = "";
+				params.clearance = "";
+				params.clearance_specify = "";
+			}
+			else{
+				params.foa = c.data.foa;
+				if(c.data.foa_specify == ""){
+					ready = false;
+					c.data.incomplete.push('s1_4_s');
+			    message  += "<br>Section I : 4)";
+				}
+				else{
+					params.foa_specify = c.data.foa_specify;
+				}
+				if(c.data.clearance == ""){
+					ready = false;
+					c.data.incomplete.push('s1_4_1');
+			    message  += "<br>Section I : 4)";
+				}
+				else if(c.data.clearance == "Yes"){
+					params.foa_specify = c.data.foa_specify;
+					params.clearance = c.data.clearance;
+					params.clearance_specify = "";
+				}
+				else if(c.data.clearance_specify == ""){
+					ready = false;
+					c.data.incomplete.push('s1_4_1_s');
+			    message  += "<br>Section I : 4)";
+				}
+				else{
+					params.foa_specify = c.data.foa_specify;
+					params.clearance = c.data.clearance;
+					params.clearance_specify = c.data.clearance_specify;
+				}
+			}
+			//question 5
+			if(c.data.risk == ""){
+				ready = false;
+				c.data.incomplete.push('s1_5_a');
+			  message  += "<br>Section I : 5) a)";
+			}
+			else if(c.data.risk == "Yes"){
+				params.risk = c.data.risk;
+				if(c.data.risk_document == ""){
+					ready = false;
+					c.data.incomplete.push('s1_5_a_f');
+			    message  += "<br>Section I : 5) a)";
+				}
+				else{
+					params.risk_document = c.data.risk_document;
+				}
+			}
+			else{
+				params.risk = c.data.risk;
+				params.risk_document = "";
+			}
+			if(c.data.study_design == ""){
+				ready = false;
+				c.data.incomplete.push('s1_5_b');
+			  message  += "<br>Section I : 5) b)";
+			}
+			else if(c.data.study_design == "Yes"){
+				params.study_design = c.data.study_design;
+				if(c.data.design_document == ""){
+					ready = false;
+					c.data.incomplete.push('s1_5_b_f');
+			    message  += "<br>Section I : 5) b)";
+				}
+				else{
+					params.design_document = c.data.design_document;
+				}
+			}
+			else{
+				params.study_design = c.data.study_design;
+				params.design_document = "";
+			}
+			//question 6
+			if(c.data.intellectual){
+				params.intellectual = c.data.intellectual;
+				if(c.data.contribution == ""){
+					ready = false;
+					c.data.incomplete.push('s1_6_1');
+			    message  += "<br>Section I : 6)";
+				}
+				else{
+					params.contribution = c.data.contribution;
+				}
+			}else{
+				params.intellectual = c.data.intellectual;
+				params.contribution = "";
+			}
+			if(c.data.interventional){
+				params.interventional = c.data.interventional;
+				if(c.data.risk_assessed == ""){
+					ready = false;
+					c.data.incomplete.push('s1_6_2');
+			    message  += "<br>Section I : 6)";
+				}
+				else{
+					params.risk_assessed = c.data.risk_assessed;
+				}
+			}else{
+				params.interventional = c.data.interventional;
+				params.risk_assessed = "";
+			}
+			params.entity = c.data.entity;
+			if(c.data.monetary){
+				params.monetary = c.data.monetary;
+				if(c.data.amount == ""){
+					ready = false;
+					c.data.incomplete.push('s1_6_3');
+			    message  += "<br>Section I : 6)";
+				}
+				else if(c.data.amount == '>$1M' && c.data.amount_type == ""){
+					ready = false;
+					c.data.incomplete.push('s1_6_3_1');
+			    message  += "<br>Section I : 6)";
+				}
+				else if(c.data.amount == '>$10M' && c.data.amount_type_1 == ""){
+					ready = false;
+					c.data.incomplete.push('s1_6_3_1');
+			    message  += "<br>Section I : 6)";
+				}
+				else{
+					params.monetary = c.data.monetary;
+					params.amount = c.data.amount;
+					if(c.data.amount == '>$10M'){
+						params.amount_type = c.data.amount_type_1;
+					}
+					else{
+						params.amount_type = c.data.amount_type;
+					}
+				}
+			}else{
+				params.monetary = c.data.monetary;
+				params.amount = "";
+				params.amount_type = "";
+			}
+			params.no_assets = c.data.no_assets;
+			//question 7
+			if(c.data.industry_scrutiny == ""){
+				ready = false;
+				c.data.incomplete.push('s1_7_a');
+			  message  += "<br>Section I : 7) a)";
+			}
+			else{
+				params.industry_scrutiny = c.data.industry_scrutiny;
+			}
+			
+			if(c.data.industry_use == ""){
+				ready = false;
+				c.data.incomplete.push('s1_7_b');
+			  message  += "<br>Section I : 7) b)";
+			}
+			else if(c.data.industry_use == "No"){
+				if(c.data.industry_use_specify == ""){
+					ready = false;
+					c.data.incomplete.push('s1_7_b_s');
+			    message  += "<br>Section I : 7) b)";
+				}
+				else{
+					params.industry_use = c.data.industry_use;
+					params.industry_use_specify = c.data.industry_use_specify;
+				}
+			}
+			else{
+				params.industry_use = c.data.industry_use;
+				params.industry_use_specify = "";
+			}
+			//question 8
+			if(c.data.nonprofit_scrutiny == ""){
+				ready = false;
+				c.data.incomplete.push('s1_8_a');
+			  message  += "<br>Section I : 8) a)";
+			}
+			else{
+				params.nonprofit_scrutiny = c.data.nonprofit_scrutiny;
+			}
+			
+			if(c.data.nonprofit_aim == ""){
+				ready = false;
+				c.data.incomplete.push('s1_8_b');
+			  message  += "<br>Section I : 8) b)";
+			}
+			else if(c.data.nonprofit_aim == "No"){
+				if(c.data.industry_use_specify == ""){
+					ready = false;
+					c.data.incomplete.push('s1_8_b_s');
+			    message  += "<br>Section I : 8) b)";
+				}
+				else{
+					params.nonprofit_aim = c.data.nonprofit_aim;
+				  params.nonprofit_aim_specify = c.data.nonprofit_aim_specify;
+				}
+			}
+			else{
+				params.nonprofit_aim = c.data.nonprofit_aim;
+				params.nonprofit_aim_specify = "";
+			}
+		}
+		else{
+			params.relationship = "";
+			params.supply_document = "";
+			params.other_organization = "";
+			params.specifics = "";
+			params.renewal = "";
+			params.renewal_specify = "";
+			params.foa = "";
+			params.foa_specify = "";
+			params.clearance = "";
+			params.clearance_specify = "";
+			params.risk = "";
+			params.risk_document = "";
+			params.study_design = "";
+			params.design_document = "";
+			params.intellectual = false;
+			params.contribution = "";
+			params.interventional = false;
+			params.risk_assessed = "";
+			params.entity = false;
+			params.monetary = false;
+			params.amount = "";
+			params.amount_type = "";
+			params.no_assets = false;
+			params.industry_scrutiny = "";
+			params.industry_use = "";
+			params.industry_use_specify = "";
+			params.nonprofit_scrutiny = "";
+			params.nonprofit_aim = "";
+			params.nonprofit_aim_specify = "";
+		}
+		//section 2
+		//question 1
+		if(c.data.participate == ""){
+			ready = false;
+			c.data.incomplete.push('s2_1');
+			message  += "<br>Section II : 1)";
+		}
+		else{
+			params.participate = c.data.participate;
+		}
+		//question 2
+		if(c.data.solicitation == ""){
+			ready = false;
+			c.data.incomplete.push('s2_2');
+			message  += "<br>Section II : 2)";
+		}
+		else{
+			params.solicitation = c.data.solicitation;
+		}
+		//question 3
+		if(c.data.advisory == ""){
+			ready = false;
+			c.data.incomplete.push('s2_3');
+			message  += "<br>Section II : 3)";
+		}
+		else if(c.data.advisory == "Yes"){
+			if(c.data.advisory_specify == ""){
+				ready = false;
+				c.data.incomplete.push('s2_3_s');
+			  message  += "<br>Section II : 3)";
+			}
+			else{
+				params.advisory = c.data.advisory;
+		    params.advisory_specify = c.data.advisory_specify;
+			}
+		}
+		else{
+			params.advisory = c.data.advisory;
+		  params.advisory_specify = "";
+		}
+		//question 4
+		if(c.data.confidential_detail == ""){
+			ready = false;
+			c.data.incomplete.push('s2_4');
+			message  += "<br>Section II : 4)";
+		}
+		else if(c.data.confidential_detail == "Yes"){
+			if(c.data.confidential_specify == ""){
+				ready = false;
+				c.data.incomplete.push('s2_4_s');
+			  message  += "<br>Section II : 4)";
+			}
+			else{
+				params.confidential_detail = c.data.confidential_detail;
+		    params.confidential_specify = c.data.confidential_specify;
+			}
+		}
+		else{
+			params.confidential_detail = c.data.confidential_detail;
+		  params.confidential_specify = "";
+		}
+		//question 5
+		if(c.data.complaints == ""){
+			ready = false;
+			c.data.incomplete.push('s2_5');
+			message  += "<br>Section II : 5)";
+		}
+		else if(c.data.complaints == "Yes"){
+			if(c.data.complaints_specify == ""){
+				ready = false;
+				c.data.incomplete.push('s2_5_s');
+			  message  += "<br>Section II : 5)";
+			}
+			else{
+				params.complaints = c.data.complaints;
+		    params.complaints_specify = c.data.complaints_specify;
+			}
+		}
+		else{
+			params.complaints = c.data.complaints;
+		  params.complaints_specify = "";
+		}
+		//question 6
+		if(c.data.involved == ""){
+			ready = false;
+			c.data.incomplete.push('s2_6');
+			message  += "<br>Section II : 6)";
+		}
+		else if(c.data.involved == "Yes"){
+			params.involved = c.data.involved;
+			if(c.data.disclosure == ""){
+				ready = false;
+				c.data.incomplete.push('s2_6_i');
+			  message  += "<br>Section II : 6) i.";
+			}
+			else{
+				params.disclosure = c.data.disclosure;
+			}
+			if(c.data.management == ""){
+				ready = false;
+				c.data.incomplete.push('s2_6_ii');
+			  message  += "<br>Section II : 6) ii.";
+			}
+			else{
+				params.management = c.data.management;
+			}
+		}
+		else{
+			params.involved = c.data.involved;
+			params.disclosure = "";
+			params.management = "";
+		}
+		//question 7
+		params.communicate = c.data.communicate;
+		params.communicate_specify = c.data.communicate_specify;
+		/*
+		if(c.data.communicate == ""){
+			ready = false;
+			c.data.incomplete.push('s2_7');
+			message  += "<br>Section II : 7)";
+		}
+		else if(c.data.communicate == "Yes"){
+			if(c.data.communicate_specify == ""){
+				ready = false;
+				c.data.incomplete.push('s2_7_s');
+			  message  += "<br>Section II : 7)";
+			}
+			else{
+				params.communicate = c.data.communicate;
+		    params.communicate_specify = c.data.communicate_specify;
+			}
+		}
+		else{
+			params.communicate = c.data.communicate;
+		  params.communicate_specify = "";
+		}
+		*/
+		//question 8
+		params.inequitable_treatment = c.data.inequitable_treatment;
+		params.inequitable_treatment_specify = c.data.inequitable_treatment_specify;
+		/*
+		if(c.data.inequitable_treatment == ""){
+			ready = false;
+			c.data.incomplete.push('s2_8');
+			message  += "<br>Section II : 8)";
+		}
+		else if(c.data.inequitable_treatment == "Yes"){
+			if(c.data.inequitable_treatment_specify == ""){
+				ready = false;
+				c.data.incomplete.push('s2_8_s');
+			  message  += "<br>Section II : 8)";
+			}
+			else{
+				params.inequitable_treatment = c.data.inequitable_treatment;
+		    params.inequitable_treatment_specify = c.data.inequitable_treatment_specify;
+			}
+		}
+		else{
+			params.inequitable_treatment = c.data.inequitable_treatment;
+		  params.inequitable_treatment_specify = "";
+		}
+		*/
+		
+		if(c.data.incomplete.length > 0){
+			c.data.message = "Please complete the question form.";
+			$('#messageDiv').modal('show');
+		}
+		else{
+			console.log(params);
+			cb = function(){
+				c.data.saving = true;
+				c.data.save_text = 'Submitting...';
+				SurveyForm.submitSurvey(params, c.data.sessionId).then(function(rs){
+					var data = rs.data.result;
+					c.data.saving = false;
+					c.data.save_text = 'Submit';
+					c.data.message = "Your form has been successfully submitted.";
+					$scope.$apply();
+					$('#messageDiv').modal('show');
+				}, function(error){
+					console.log(error);
+				});
+			};
+			$('#confirmDiv').modal('show');
+		}
+	}
+	
+	c.loadDictionary = function(query){
+		var name = query.trim();
+		if (name.length < 4) {
+			return [];
+		}
+		var first = '';
+		var last = '';
+		var idx = name.indexOf(',');
+		if (idx >= 0) {
+			last = name.substring(0,idx).trim();
+			first = name.substring(idx+1).trim();
+		}
+		else{
+			idx = name.indexOf(' ');
+			if(idx >= 0){
+				first = name.substring(0,idx).trim();
+				last = name.substring(idx+1).trim();
+			}
+			else{
+				first = name.trim();
+				last = name.trim();
+			}
+		}
+		var params = {};
+		params.first = first;
+		params.last = last;
+		return SurveyUser.searchByName(params, c.data.sessionId).then(function(rs){
+				var tags = [];
+				var result = rs.data.result;
+				result.forEach(function(r){
+					tags.push({text: r.label, id: r.id, name: r.value, org: r.org});
+				});
+				return tags;
+			}, function(error){
+				console.error(error);
+				return [];
+			});
+	};
+	
+	c.closeMessageBox = function(){
+		$('#messageDiv').modal('hide');
+		
+	}
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>survey_form</id>
+        <internal>false</internal>
+        <link/>
+        <name>survey form</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+  /* populate the 'data' object */
+  /* e.g., data.table = $sp.getValue('table'); */
+	data.sessionId = gs.getSession().getSessionToken();
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>yuw5@nih.gov</sys_created_by>
+        <sys_created_on>2019-02-11 22:07:14</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>4b7e6fbddba3e70054d8ff621f961955</sys_id>
+        <sys_mod_count>486</sys_mod_count>
+        <sys_name>survey form</sys_name>
+        <sys_package display_value="Partnership program process survey" source="x_naci_survey">c3cce779dbeb6b00b86770c08c96191e</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Partnership program process survey">c3cce779dbeb6b00b86770c08c96191e</sys_scope>
+        <sys_update_name>sp_widget_4b7e6fbddba3e70054d8ff621f961955</sys_update_name>
+        <sys_updated_by>yuw5@nih.gov</sys_updated_by>
+        <sys_updated_on>2019-02-14 18:38:02</sys_updated_on>
+        <template><![CDATA[<div class="survey-content">
+  <div class="container survey-block">
+    <div style="margin-top:30px;font-size:18px;">
+      <p>Background:</p>
+      <ul>
+        <li>
+          This review is part of the follow-up from a <a href="https://acd.od.nih.gov/working-groups/machtrial.html" target="_blank">working group</a> of the NIH Advisory Committee to the Director (ACD) on the MACH trial, and subsequent conversations about improving guidelines on public-private partnerships and program processes.
+        </li>
+        <li>
+          In parallel to additional policy development and new training opportunities, the questions below are the basis of NIH's initial scan of all portfolios and potential issues to examine, as raised by the ACD.
+        </li>
+        <li>
+          This is being conducted as part of NIH's strategic risk management efforts and each IC is being asked to provide aggregate responses to the NIH OD.  Your responses will be used by the NCI OD to develop that submission.
+        </li>
+        <li>
+          It is one of several ways we are identifying further ways to shore up the public trust in NIH-supported research, and that we are performing due diligence to be responsive to both the NIH Advisory Committee to the Director, and external stakeholders in biomedical research.
+        </li>
+      </ul>
+      <p>
+        Instructions:
+      </p>
+			<p>
+        Responses marked with an asterisk (<i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i>) should be reported up to IC leadership for awareness and, if necessary, further review. If unsure of the answer, staff should report this up to leadership for awareness as well.
+      </p>
+    </div>
+    <div class="survey-form-section">
+      <div class="basic-info" style="display:flex;">
+        <div style="width:45%;display:flex;">
+            <div ng-class="c.data.incomplete.indexOf('s0_1') > -1 ? 'mark-red' : ''" style="line-height:35px;text-align:right;font-weight:bold;width:25%;">Submitted for:</div>
+            <div style="width:75%;margin-left: 15px;">
+              <tags-input ng-model="c.data.request_for" placeholder="" key-property="id" display-property="name" max-tags="1" replace-spaces-with-dashes=false text="c.data.request_for_text" style="border: 1px solid #e5e5e5;" on-tag-adding="c.tagAdding($tag)" on-tag-removed="c.tagRemoved($tag)">
+            		<auto-complete source="c.loadDictionary($query)"
+                           min-length="0"
+                           display-property="text"
+                           load-on-focus="false"
+                           load-on-empty="false"
+                           select-first-match="true"
+                           max-results-to-show="10"></auto-complete>
+          		</tags-input>
+            </div>
+          </div>
+        <div style="width:50%;display:flex;">
+            <div ng-class="c.data.incomplete.indexOf('s0_2') > -1 ? 'mark-red' : ''"  style="line-height:35px;text-align:right;font-weight:bold;width:25%;">Institute/Center:</div>
+            <div style="width:75%;margin-left: 15px;">
+              <input type="text" ng-model="c.data.doc" id="doc" name="doc" value="{{c.data.doc}}" class="form-control">
+            </div>
+          </div>
+      </div>
+      <uib-accordion close-others="false">
+        <div uib-accordion-group class="panel-default" is-open="c.data.tab_1.isOpen">
+          <uib-accordion-heading>
+            <div>
+              Section I <i class="pull-right" ng-class="{'fa fa-minus-square': c.data.tab_1.isOpen, 'fa fa-plus-square': !c.data.tab_1.isOpen}"></i>
+            </div>
+          </uib-accordion-heading>
+          <div ng-class="c.data.incomplete.indexOf('s1_0') > -1 ? ['form-section', 'mark-red'] : ['form-section']" style="display:flex;font-weight: bold;">
+            Within the past 24 months, have you established, or are you currently pursuing the establishment of, a partnership with a private partner (such as an industry partner, or private foundation)?
+          </div>
+          <div class="form-section" style="display:flex;">
+            <input type="radio" ng-model="c.data.partnership" value="Yes" name="partnership"> Yes
+            <input type="radio" ng-model="c.data.partnership" value="No" name="partnership"> No
+          </div>
+          <div ng-show = "c.data.partnership == 'Yes'">
+						<div class="form-section" style="display:flex;">
+              Please answer the following questions:
+            </div>
+            <div ng-class="['form-section','indent-1']" style="display:flex;font-weight: bold;">
+              1) Consider how you developed the partnership, and the steps you took to add transparency to the development of your partnership:
+            </div>
+            <div ng-class="c.data.incomplete.indexOf('s1_1_a') > -1 ? 'form-section indent-2 mark-red' : 'form-section indent-2'" style="display:flex;">
+              a) Are you prepared to make fully public the process of how the IC’s relationships with this/(these) organization/(s) were initiated and developed?
+            </div>
+            <div class="form-section indent-3" style="">
+              <input type="radio" ng-model="c.data.relationship" value="Yes" name="relationship"> Yes<br>
+              <input type="radio" ng-model="c.data.relationship" value="No" name="relationship"> No <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i><br>
+              <input type="radio" ng-model="c.data.relationship" value="Unsure" name="relationship"> Unsure <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i>
+            </div>
+            <div ng-class="c.data.incomplete.indexOf('s1_1_b') > -1 ? 'form-section indent-2 mark-red' : 'form-section indent-2'" style="display:flex;">
+              b) Can you supply any available documentation of staff interactions with partners prior to and during the conduct of the partnership? (Documentation examples: notes from meetings, email documents, calendar entries, notes to files)
+            </div>
+            <div class="form-section indent-3" style="">
+              <input type="radio" ng-model="c.data.supply_document" value="Yes" name="supply_document"> Yes<br>
+              <input type="radio" ng-model="c.data.supply_document" value="No" name="supply_document"> No <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i><br>
+              <input type="radio" ng-model="c.data.supply_document" value="Unsure" name="supply_document"> Unsure <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i>
+            </div>
+            <div ng-class="c.data.incomplete.indexOf('s1_2') > -1 ? 'form-section indent-1 mark-red' : 'form-section indent-1'" style="display:flex;font-weight: bold;">
+              2) Are there other organizations with similar assets/expertise who could have potentially served as partners?
+            </div>
+            <div class="form-section indent-2" style="">
+              <input type="radio" ng-model="c.data.other_organization" value="Yes" name="other_organization"> Yes<br>
+              <input type="radio" ng-model="c.data.other_organization" value="No" name="other_organization"> No
+            </div>
+            <div ng-show="c.data.other_organization == 'Yes'">
+              <div  ng-class="c.data.incomplete.indexOf('s1_2_s') > -1 ? 'form-section indent-2 mark-red' : 'form-section indent-2'" style="display:flex;">
+                Can you give specifics as to why you chose this organization, why other entities were not selected, and why other entities did not meet your ICO’s needs?
+              </div>
+              <div class="form-section indent-3" style="">
+                <input type="radio" ng-model="c.data.specifics" value="Yes" name="specifics"> Yes<br>
+                <input type="radio" ng-model="c.data.specifics" value="No" name="specifics"> No <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i><br>
+                <input type="radio" ng-model="c.data.specifics" value="Unsure" name="specifics"> Unsure <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i>
+              </div>
+            </div>
+            <div ng-class="c.data.incomplete.indexOf('s1_3') > -1 ? 'form-section indent-1 mark-red' : 'form-section indent-1'" style="display:flex;font-weight: bold;">
+              3) Is your activity a renewal or continuation of a previous partnership?
+            </div>
+            <div class="form-section indent-2" style="">
+              <input type="radio" ng-model="c.data.renewal" value="Yes" name="renewal"> Yes<br>
+              <input type="radio" ng-model="c.data.renewal" value="No" name="renewal"> No <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i>
+            </div>
+            <div ng-show="c.data.renewal == 'Yes'">
+              <div ng-class="c.data.incomplete.indexOf('s1_3_s') > -1 ? 'form-section indent-3 mark-red' : 'form-section indent-3'" style="display:flex;">
+                Explain the justification for the renewal or continuation of the partnership (e.g., the unique nature of the organization or the need to expand the prior relationship)
+              </div>
+              <div class="form-section indent-3" style="display:flex;">
+                <textarea rows=3 ng-model="c.data.renewal_specify" id="renewal_specify" name="renewal_specify" style="resize: vertical;"  value="{{c.data.renewal_specify}}" class="form-control"></textarea>
+              </div>
+            </div>
+            <div ng-class="c.data.incomplete.indexOf('s1_4') > -1 ? 'form-section indent-1 mark-red' : 'form-section indent-1'"  style="display:flex;font-weight: bold;">
+              4) Does the partnership support program/s funded through a dedicated FOA (e.g., not a parent FOA)?
+            </div>
+            <div class="form-section indent-2" style="">
+              <input type="radio" ng-model="c.data.foa" value="Yes" name="foa"> Yes<br>
+              <input type="radio" ng-model="c.data.foa" value="No" name="foa"> No
+            </div>
+            <div ng-show="c.data.foa == 'Yes'">
+              <div ng-class="c.data.incomplete.indexOf('s1_4_s') > -1 ? 'form-section indent-3 mark-red' : 'form-section indent-3'"  style="display:flex;">
+                Please list the specific FOA numbers:
+              </div>
+              <div class="form-section indent-3" style="display:flex;">
+                <input type="text" ng-model="c.data.foa_specify" id="foa_specify" name="foa_specify" value="{{c.data.foa_specify}}" class="form-control">
+              </div>
+              <div ng-class="c.data.incomplete.indexOf('s1_4_1') > -1 ? 'form-section indent-3 mark-red' : 'form-section indent-3'"  style="display:flex;">
+                Did all these FOAs go through concept clearance through presentation to an open session of an advisory council?
+              </div>
+              <div class="form-section indent-4" style="">
+                <input type="radio" ng-model="c.data.clearance" value="Yes" name="clearance"> Yes<br>
+                <input type="radio" ng-model="c.data.clearance" value="No" name="clearance"> No <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i>
+              </div>
+              <div ng-show="c.data.clearance == 'No'">
+                <div ng-class="c.data.incomplete.indexOf('s1_4_1_s') > -1 ? 'form-section indent-4 mark-red' : 'form-section indent-4'"   style="display:flex;">
+                  Please describe who did clear it and the type of documentation that could be provided in the field below
+                </div>
+                <div class="form-section indent-4" style="display:flex;">
+                 <textarea rows=3 ng-model="c.data.clearance_specify" id="clearance_specify" name="clearance_specify" style="resize: vertical;"  value="{{c.data.clearance_specify}}" class="form-control"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="form-section indent-1" style="display:flex;font-weight: bold;">
+              5) For partnership activities via cooperative agreements and/or contracts, if the ongoing or proposed activity involves human participants or animal subjects:
+            </div>
+            <div ng-class="c.data.incomplete.indexOf('s1_5_a') > -1 ? 'form-section indent-2 mark-red' : 'form-section indent-2'"   style="display:flex;">
+               a) Has the risk to either humans or animals been assessed?
+            </div>
+            <div class="form-section indent-3" style="">
+              <input type="radio" ng-model="c.data.risk" value="Yes" name="risk"> Yes<br>
+              <input type="radio" ng-model="c.data.risk" value="No" name="risk"> No <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i><br>
+              <input type="radio" ng-model="c.data.risk" value="Unsure" name="risk"> Unsure <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i>
+            </div>
+            <div ng-show="c.data.risk == 'Yes'">
+              <div ng-class="c.data.incomplete.indexOf('s1_5_a_f') > -1 ? 'form-section indent-4 mark-red' : 'form-section indent-4'"  style="display:flex;">
+               Do you have documentation of this?
+              </div>
+              <div class="form-section  indent-5" style="">
+                <input type="radio" ng-model="c.data.risk_document" value="Yes" name="risk_document"> Yes<br>
+                <input type="radio" ng-model="c.data.risk_document" value="No" name="risk_document"> No <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i><br>
+                <input type="radio" ng-model="c.data.risk_document" value="Unsure" name="risk_document"> Unsure <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i>
+              </div>
+            </div>
+            <div ng-class="c.data.incomplete.indexOf('s1_5_b') > -1 ? 'form-section indent-2 mark-red' : 'form-section indent-2'"   style="display:flex;">
+             b) In addition to appropriate IRB or IACUC approvals, can you confirm that the final study design was approved by NIH staff?
+            </div>
+            <div class="form-section indent-3" style="">
+              <input type="radio" ng-model="c.data.study_design" value="Yes" name="study_design"> Yes<br>
+              <input type="radio" ng-model="c.data.study_design" value="No" name="study_design"> No <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i><br>
+              <input type="radio" ng-model="c.data.study_design" value="Unsure" name="study_design"> Unsure <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i>
+            </div>
+            <div ng-show="c.data.study_design == 'Yes'">
+              <div ng-class="c.data.incomplete.indexOf('s1_5_b_f') > -1 ? 'form-section indent-4 mark-red' : 'form-section indent-4'"   style="display:flex;">
+               Do you have documentation of this?
+              </div>
+              <div class="form-section indent-5" style="">
+                <input type="radio" ng-model="c.data.design_document" value="Yes" name="design_document"> Yes<br>
+                <input type="radio" ng-model="c.data.design_document" value="No" name="design_document"> No <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i><br>
+                <input type="radio" ng-model="c.data.design_document" value="Unsure" name="design_document"> Unsure <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i>
+              </div>
+            </div>
+            <div class="form-section indent-1" style="display:flex;font-weight: bold;">
+              6) If the partnerships provide any assets: what is the nature of any asset(s) to be provided by the partner? (Select those that apply)
+            </div>
+            <div class="form-section  indent-2" style="display:flex;">
+              <input type="checkbox" id="intellectual" ng-model="c.data.intellectual" value="Intellectual only"> Intellectual only
+            </div>
+            <div ng-show="c.data.intellectual == true">
+              <div ng-class="c.data.incomplete.indexOf('s1_6_1') > -1 ? 'form-section indent-3 mark-red' : 'form-section indent-3'"   style="display:flex;">
+                Can you both define and document the role and contribution of the partner?
+              </div>
+              <div class="form-section indent-4" style="">
+                <input type="radio" ng-model="c.data.contribution" value="Yes" name="contribution"> Yes<br>
+                <input type="radio" ng-model="c.data.contribution" value="No" name="contribution"> No <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i>
+              </div>
+            </div>
+            <div class="form-section indent-2" style="display:flex;">
+              <input type="checkbox" id="interventional" ng-model="c.data.interventional" value="Interventional molecule, biological, or device"> Interventional molecule, biological, or device
+            </div>
+            <div ng-show="c.data.interventional == true">
+              <div ng-class="c.data.incomplete.indexOf('s1_6_2') > -1 ? 'form-section indent-3 mark-red' : 'form-section indent-3'"   style="display:flex;">
+                Has potential risk been assessed, and is it documented?
+              </div>
+              <div class="form-section indent-4" style="">
+                <input type="radio" ng-model="c.data.risk_assessed" value="Yes" name="risk_assessed"> Yes<br>
+                <input type="radio" ng-model="c.data.risk_assessed" value="No" name="risk_assessed"> No <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i>
+              </div>
+            </div>
+            <div class="form-section indent-2" style="display:flex;">
+               <input type="checkbox" id="entity" ng-model="c.data.entity" value="Non-unique material entity (e.g., generic drug, supplies)"> Non-unique material entity (e.g., generic drug, supplies)
+            </div>
+            <div class="form-section indent-2" style="display:flex;">
+              <input type="checkbox" id="monetary" ng-model="c.data.monetary" value="Monetary"> Monetary
+            </div>
+            <div ng-show="c.data.monetary == true">
+              <div ng-class="c.data.incomplete.indexOf('s1_6_3') > -1 ? 'form-section indent-3 mark-red' : 'form-section indent-3'"   style="display:flex;">
+                is the amount…
+              </div>
+              <div class="form-section indent-4" style="display:flex;">
+                <input type="radio" ng-model="c.data.amount" value=">$1M" name="amount"> >$1M
+              </div>
+              <div ng-class="c.data.incomplete.indexOf('s1_6_3_1') > -1 ? 'form-section indent-5 mark-red' : 'form-section indent-5'"   style="" ng-show="c.data.amount == '>$1M'">
+                <input type="radio" ng-model="c.data.amount_type" value="Restricted" name="amount_type"> Restricted <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i><br>
+                <input type="radio" ng-model="c.data.amount_type" value="Unrestricted" name="amount_type"> Unrestricted
+              </div>
+              <div class="form-section indent-4" style="display:flex;">
+                <input type="radio" ng-model="c.data.amount" value=">$10M" name="amount"> >$10M
+              </div>
+              <div ng-class="c.data.incomplete.indexOf('s1_6_3_1') > -1 ? 'form-section indent-5 mark-red' : 'form-section indent-5'"  style="" ng-show="c.data.amount == '>$10M'">
+                <input type="radio" ng-model="c.data.amount_type_1" value="Restricted" name="amount_type_1"> Restricted <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i><br>
+                <input type="radio" ng-model="c.data.amount_type_1" value="Unrestricted" name="amount_type_1"> Unrestricted <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i>
+              </div>
+            </div>
+            <div class="form-section indent-2" style="display:flex;">
+              <input type="checkbox" id="no_assets" ng-model="c.data.no_assets" value="No assets provided"> No assets provided
+            </div>
+            <div class="form-section indent-1" style="display:flex;font-weight: bold;">
+              7) For each industry partnership, please address these questions related to public perception of the partnership:
+            </div>
+            <div  ng-class="c.data.incomplete.indexOf('s1_7_a') > -1 ? 'form-section indent-2 mark-red' : 'form-section indent-2'"   style="display:flex;">
+               a) Has the company received notable public scrutiny within the past 5 years (e.g., mainstream press coverage of controversial actions)?
+            </div>
+            <div class="form-section  indent-3" style="">
+              <input type="radio" ng-model="c.data.industry_scrutiny" value="Yes" name="industry_scrutiny"> Yes <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i><br>
+              <input type="radio" ng-model="c.data.industry_scrutiny" value="No" name="industry_scrutiny"> No
+            </div>
+            <div ng-class="c.data.incomplete.indexOf('s1_7_b') > -1 ? 'form-section indent-2 mark-red' : 'form-section indent-2'"   style="display:flex;">
+               b) Is the primary use of the company’s product or resources related to improving health or to scientific discovery?
+            </div>
+            <div class="form-section indent-3" style="">
+              <input type="radio" ng-model="c.data.industry_use" value="Yes" name="industry_use"> Yes<br>
+              <input type="radio" ng-model="c.data.industry_use" value="No" name="industry_use"> No <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i>
+            </div>
+            <div ng-show="c.data.industry_use == 'No'">
+              <div ng-class="c.data.incomplete.indexOf('s1_7_b_s') > -1 ? 'form-section indent-3 mark-red' : 'form-section indent-3'"   style="display:flex;">
+                <ul>
+                  <li>Explain the risk (e.g., partner’s business is controversial, partner’s product is known to be harmful to human life) and why the benefit from the relationship outweighs the potential damage to the IC’s reputation.</li>
+                  <li>Describe the actions you took to mitigate the harm that will arise from the relationship.</li>
+                </ul>
+              </div>
+              <div class="form-section indent-3" style="display:flex;">
+                <textarea rows=3 ng-model="c.data.industry_use_specify" id="industry_use_specify" name="industry_use_specify" style="resize: vertical;"  value="{{c.data.industry_use_specify}}" class="form-control"></textarea>
+              </div>
+            </div>
+            <div class="form-section  indent-1" style="display:flex;font-weight: bold;">
+              8) For each partnership with a non-profit organization, please address these questions related to public perception of the partnership:
+            </div>
+            <div ng-class="c.data.incomplete.indexOf('s1_8_a') > -1 ? 'form-section indent-2 mark-red' : 'form-section indent-2'"   style="display:flex;">
+               a) Has the organization received notable public scrutiny within the past 5 years (e.g., mainstream press coverage of controversial actions)?
+            </div>
+            <div class="form-section indent-3" style="">
+              <input type="radio" ng-model="c.data.nonprofit_scrutiny" value="Yes" name="nonprofit_scrutiny"> Yes <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i><br>
+              <input type="radio" ng-model="c.data.nonprofit_scrutiny" value="No" name="nonprofit_scrutiny"> No
+            </div>
+            <div ng-class="c.data.incomplete.indexOf('s1_8_b') > -1 ? 'form-section indent-2 mark-red' : 'form-section indent-2'"   style="display:flex;">
+               b) Is the primary aim of the organization related to improving health or to scientific discovery?
+            </div>
+            <div class="form-section  indent-3" style="">
+              <input type="radio" ng-model="c.data.nonprofit_aim" value="Yes" name="nonprofit_aim"> Yes<br>
+              <input type="radio" ng-model="c.data.nonprofit_aim" value="No" name="nonprofit_aim"> No <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i>
+            </div>
+            <div ng-show="c.data.nonprofit_aim == 'No'">
+              <div ng-class="c.data.incomplete.indexOf('s1_8_b_s') > -1 ? 'form-section indent-3 mark-red' : 'form-section indent-3'"   style="display:flex;">
+                <ul>
+                  <li>Explain any potential risks (e.g., the nonprofit is fully funded by industries of a controversial nature, or industries where primary product is known to be harmful to human health) and why the benefit from the relationship outweighs the potential damage to the IC’s reputation.</li>
+                  <li>Describe the actions you took to mitigate the harm that will arise from the relationship.</li>
+                </ul>
+              </div>
+              <div class="form-section indent-3" style="display:flex;">
+                <textarea rows=3 ng-model="c.data.nonprofit_aim_specify" id="nonprofit_aim_specify" name="nonprofit_aim_specify" style="resize: vertical;"  value="{{c.data.nonprofit_aim_specify}}" class="form-control"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div uib-accordion-group class="panel-default" is-open="c.data.tab_2.isOpen">
+          <uib-accordion-heading>
+            <div>
+              Section II: For all program officers/program directors <i class="pull-right" ng-class="{'fa fa-minus-square': c.data.tab_2.isOpen, 'fa fa-plus-square': !c.data.tab_2.isOpen}"></i>
+            </div>
+          </uib-accordion-heading>
+          <div ng-class="c.data.incomplete.indexOf('s2_1') > -1 ? 'form-section indent-1 mark-red' : 'form-section indent-1'"   style="display:flex;font-weight: bold;">
+            1) Have external scientific experts participated directly in writing FOA(s)?
+          </div>
+          <div class="form-section indent-2" style="">
+            <input type="radio" ng-model="c.data.participate" value="Yes" name="participate"> Yes <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i><br>
+            <input type="radio" ng-model="c.data.participate" value="No" name="participate"> No
+          </div>
+          <div ng-class="c.data.incomplete.indexOf('s2_2') > -1 ? 'form-section indent-1 mark-red' : 'form-section indent-1'"  style="display:flex;font-weight: bold;">
+           2) Have external scientific experts participated directly in writing contract solicitation language?
+          </div>
+          <div class="form-section indent-2" style="">
+            <input type="radio" ng-model="c.data.solicitation" value="Yes" name="solicitation"> Yes <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i><br>
+            <input type="radio" ng-model="c.data.solicitation" value="No" name="solicitation"> No
+          </div>
+          <div ng-class="c.data.incomplete.indexOf('s2_3') > -1 ? 'form-section indent-1 mark-red' : 'form-section indent-1'"  style="display:flex;font-weight: bold;">
+           3) In the past 12 months, have you published any RFAs or PARs without obtaining concept clearance at an open session of an advisory council?
+          </div>
+          <div class="form-section indent-2" style="">
+            <input type="radio" ng-model="c.data.advisory" value="Yes" name="advisory"> Yes <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i><br>
+            <input type="radio" ng-model="c.data.advisory" value="No" name="advisory"> No
+          </div>
+          <div ng-show="c.data.advisory == 'Yes'">
+            <div ng-class="c.data.incomplete.indexOf('s2_3_s') > -1 ? 'form-section indent-2 mark-red' : 'form-section indent-2'"  style="display:flex;">What follow-up actions, if any, have been taken?</div>
+            <div class="form-section indent-2" style="display:flex;">
+              <textarea rows=3 ng-model="c.data.advisory_specify" id="advisory_specify" name="advisory_specify" style="resize: vertical;"  value="{{c.data.advisory_specify}}" class="form-control"></textarea>
+            </div>
+          </div>
+          <div ng-class="c.data.incomplete.indexOf('s2_4') > -1 ? 'form-section indent-1 mark-red' : 'form-section indent-1'"  style="display:flex;font-weight: bold;">
+           4) In the past 12 months, have you communicated confidential details (such as release or due dates) of pending FOAs to people external to NIH?
+          </div>
+          <div class="form-section indent-2" style="">
+            <input type="radio" ng-model="c.data.confidential_detail" value="Yes" name="confidential_detail"> Yes <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i><br>
+            <input type="radio" ng-model="c.data.confidential_detail" value="No" name="confidential_detail"> No
+          </div>
+          <div ng-show="c.data.confidential_detail == 'Yes'">
+            <div ng-class="c.data.incomplete.indexOf('s2_4_s') > -1 ? 'form-section indent-2 mark-red' : 'form-section indent-2'"  style="display:flex;">What corrective actions, if any, have been taken?</div>
+            <div class="form-section indent-2" style="display:flex;">
+              <textarea rows=3 ng-model="c.data.confidential_specify" id="confidential_specify" name="confidential_specify" style="resize: vertical;"  value="{{c.data.confidential_specify}}" class="form-control"></textarea>
+            </div>
+          </div>
+          <div ng-class="c.data.incomplete.indexOf('s2_5') > -1 ? 'form-section indent-1 mark-red' : 'form-section indent-1'"  style="display:flex;font-weight: bold;">
+           5) In the past 12 months, are you aware of any substantiated complaints of inequitable treatment (e.g., preferential treatment or non-responsiveness) by any of your program staff?
+          </div>
+          <div class="form-section indent-2" style="">
+            <input type="radio" ng-model="c.data.complaints" value="Yes" name="complaints"> Yes <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i><br>
+            <input type="radio" ng-model="c.data.complaints" value="No" name="complaints"> No
+          </div>
+          <div ng-show="c.data.complaints == 'Yes'">
+            <div ng-class="c.data.incomplete.indexOf('s2_5_s') > -1 ? 'form-section indent-2 mark-red' : 'form-section indent-2'"  style="display:flex;">What corrective actions, if any, have been taken?</div>
+            <div class="form-section indent-2" style="display:flex;">
+              <textarea rows=3 ng-model="c.data.complaints_specify" id="complaints_specify" name="complaints_specify" style="resize: vertical;"  value="{{c.data.complaints_specify}}" class="form-control"></textarea>
+            </div>
+          </div>
+          <div ng-class="c.data.incomplete.indexOf('s2_6') > -1 ? 'form-section indent-1 mark-red' : 'form-section indent-1'"  style="display:flex;font-weight: bold;">
+           6) In the past 12 months, are you aware of any grants in which there were arrangements by or with the grantee that involved industry in the NIH-funded project/research?
+          </div>
+          <div class="form-section indent-2" style="">
+            <input type="radio" ng-model="c.data.involved" value="Yes" name="involved"> Yes<br>
+            <input type="radio" ng-model="c.data.involved" value="No" name="involved"> No
+          </div>
+          <div ng-show="c.data.involved == 'Yes'">
+            <div ng-class="c.data.incomplete.indexOf('s2_6_i') > -1 ? 'form-section indent-3 mark-red' : 'form-section indent-3'"  style="display:flex;">
+              i. Can you provide documentation demonstrating disclosure to NIH by the institution that received the grant(s)?
+            </div>
+            <div class="form-section indent-4" style="">
+              <input type="radio" ng-model="c.data.disclosure" value="Yes" name="disclosure"> Yes<br>
+              <input type="radio" ng-model="c.data.disclosure" value="No" name="disclosure"> No <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i>
+            </div>
+            <div ng-class="c.data.incomplete.indexOf('s2_6_ii') > -1 ? 'form-section indent-3 mark-red' : 'form-section indent-3'"  style="display:flex;">
+              ii. Can you provide documentation demonstrating management of (potential) changes in scope, research plan, budget, conflicts of interest, etc.?
+            </div>
+            <div class="form-section indent-4" style="">
+              <input type="radio" ng-model="c.data.management" value="Yes" name="management"> Yes<br>
+              <input type="radio" ng-model="c.data.management" value="No" name="management"> No <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i>
+            </div>
+          </div>
+          <div class="form-section" style="display:flex;font-weight: bold;">
+            For IC senior leadership (e.g., division directors - designate as appropriate)
+          </div>
+          <div ng-class="c.data.incomplete.indexOf('s2_7') > -1 ? 'form-section indent-1 mark-red' : 'form-section indent-1'"  style="display:flex;font-weight: bold;">
+           7) In the past 12 months, are you aware of any program staff communicating confidential details (such as release or due dates) of pending FOAs to people external to NIH?
+          </div>
+          <div class="form-section indent-2" style="">
+            <input type="radio" ng-model="c.data.communicate" value="Yes" name="communicate"> Yes <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i><br>
+            <input type="radio" ng-model="c.data.communicate" value="No" name="communicate"> No
+          </div>
+          <div ng-show="c.data.communicate == 'Yes'">
+            <div ng-class="c.data.incomplete.indexOf('s2_7_s') > -1 ? 'form-section indent-2 mark-red' : 'form-section indent-2'"  style="display:flex;">What corrective actions, if any, have been taken?</div>
+            <div class="form-section indent-2" style="display:flex;">
+              <textarea rows=3 ng-model="c.data.communicate_specify" id="communicate_specify" name="communicate_specify" style="resize: vertical;"  value="{{c.data.communicate_specify}}" class="form-control"></textarea>
+            </div>
+          </div>
+          <div ng-class="c.data.incomplete.indexOf('s2_8') > -1 ? 'form-section indent-1 mark-red' : 'form-section indent-1'"  style="display:flex;font-weight: bold;">
+            8) In the past 12 months, are you aware of any substantiated complaints of inequitable treatment (e.g., preferential treatment or non-responsiveness) by any of your program staff?
+          </div>
+          <div class="form-section indent-2" style="">
+            <input type="radio" ng-model="c.data.inequitable_treatment" value="Yes" name="inequitable_treatment"> Yes <i class="fa fa-asterisk" aria-hidden="true" style="font-size:8px;color:#B22222;"></i><br>
+            <input type="radio" ng-model="c.data.inequitable_treatment" value="No" name="inequitable_treatment"> No
+          </div>
+          <div ng-show="c.data.inequitable_treatment == 'Yes'">
+            <div ng-class="c.data.incomplete.indexOf('s2_8_s') > -1 ? 'form-section indent-2 mark-red' : 'form-section indent-2'"  style="display:flex;">What corrective actions, if any, have been taken?</div>
+            <div class="form-section indent-2" style="display:flex;">
+              <textarea rows=3 ng-model="c.data.inequitable_treatment_specify" id="inequitable_treatment_specify" name="inequitable_treatment_specify" style="resize: vertical;"  value="{{c.data.inequitable_treatment_specify}}" class="form-control"></textarea>
+            </div>
+          </div>
+        </div>
+      </uib-accordion>
+    </div>
+    <div class="survey-button-section">
+      <button type="button" class="table-button btn btn-primary" style="margin-right:20px;" ng-click="c.submitSurvey();" ng-disabled="c.data.saving">
+        {{c.data.save_text}}
+      </button>
+    </div>
+  </div>
+</div>
+<div id="messageDiv" class="modal fade" data-keyborad="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg" style="width:20%;">
+        <div class="modal-content" style="height:200px; overflow-y:auto; overflow-x: hidden;">
+            <div class="modal-header">
+                 Information Dialog
+            </div>
+            <div class="col-md-12 message-box" id="messageContent" align="center" ng-bind-html="c.data.message">
+            </div>
+            <div class="col-md-12" align="center">
+              <button class="btn btn-primary" ng-click="c.closeMessageBox();" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmDiv" class="modal fade" data-keyborad="false" data-backdrop="static">
+  <div class="modal-dialog modal-lg" style="width:20%;">
+    <div class="modal-content" style="height:150px; overflow-y:auto; overflow-x: hidden;">
+      <div class="col-md-12 message-box" align="center">
+        Are you ready to submit the form?
+      </div>
+      <div class="col-md-12" align="center">
+        <button class="btn btn-primary" style="margin-right: 20px;" ng-click="c.goAhead();" data-dismiss="modal">Yes</button>
+        <button class="btn btn-primary" ng-click="c.cancelConfirm();" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>]]></template>
+    </sp_widget>
+</record_update>
